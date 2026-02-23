@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
-export function About() {
+export function About({user}) {
   return (
     <main>
-        <h2>About</h2>
+        <p> user: {user} </p>
         <button className="login-buttons"><Link className="links" to="../">Log Out</Link></button>
         <div></div>
         <button className="login-buttons"><Link className="links" to="../play">Play Again</Link></button>

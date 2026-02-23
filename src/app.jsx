@@ -9,17 +9,19 @@ import { About } from './about/about';
 import { Teacher } from './teacher/teacher';
 
 export default function App() {
-  return (
+    const [user, setUser] = React.useState(() => localStorage.getItem('user') || '');
+    const [count, setCount] = React.useState(() => localStorage.getItem('count') || 0);
+    return (
       <BrowserRouter>
       <header>
           <h1>AtoG</h1>
       </header>
 
       <Routes>
-        <Route path='/' element={<Login />} />
-        <Route path='/play' element={<Play />} />
-        <Route path='/scores' element={<Scores />} />
-        <Route path='/about' element={<About />} />
+        <Route path='/' element={<Login user={user} setUser={setUser} count={count} />} />
+        <Route path='/play' element={<Play user={user} setUser={setUser} />} />
+        <Route path='/scores' element={<Scores user={user} setUser={setUser} count={count} setCount={setCount} />} />
+        <Route path='/about' element={<About user={user} setUser={setUser} />} />
         <Route path='/teacher' element={<Teacher />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
