@@ -1,23 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 
 export function Play({user}) {
     const [count, setCount] = React.useState(parseFloat(localStorage.getItem('count')) || 1);
     const [clicks, setClicks] = React.useState(parseFloat(localStorage.getItem('clicks')) || 1);
     const [score, setScore] = React.useState(parseFloat(localStorage.getItem('score')) || 0);
-    const [pic, setPic] = React.useState(localStorage.getItem('pic') || '../../public/treble_clef.jpg');
+    const [pic, setPic] = React.useState(localStorage.getItem('pic') || '/treble_clef.jpg');
     const navigate = useNavigate();
-    const picNumb = Math.floor(Math.random() * 7) + 1;
+    const picNumb = useState(() => Math.floor(Math.random() * 7));
     const pictures = [
-        {id: 1, src: '../../public/noteA.png'},
-        {id: 2, src: '../../public/noteB.png'},
-        {id: 3, src: '../../public/noteC.png'},
+        {id: 1, src: '/noteA.png'},
+        {id: 2, src: 'public/noteB.png'},
+        {id: 3, src: '../public/noteC.png'},
         {id: 4, src: '../../public/noteD.png'},
         {id: 5, src: '../../public/noteE.png'},
         {id: 6, src: '../../public/noteF.png'},
         {id: 7, src: '../../public/noteG.png'}
     ]
-
+    useEffect(() => {
+        localStorage.setItem('clicks', clicks)
+        }, [clicks])
+    useEffect(() => {
+        localStorage.setItem('count', count)
+        }, [count])
+    useEffect(() => {
+        localStorage.setItem('score', score)
+        }, [score])
+    useEffect(() => {
+        localStorage.setItem('pic', pic)
+        }, [pic])
     function isRight(buttonPushed){
         if (pictures[pic] == buttonPushed){
             return true;
@@ -25,32 +36,26 @@ export function Play({user}) {
         return false;
     }
     function countClick(buttonPushed){
-        if(isRight){
-        setCount(count + 1);
-        localStorage.setItem('count', (count + 1));
-        }
-        setClicks(clicks + 1);
-        localStorage.setItem('clicks', clicks + 1);
-        setScore(count/clicks);
-        localStorage.setItem('score', count/clicks);
-        var nextPic = getPicture();
-        setPic(nextPic);
-        localStorage.setPic('pic', nextPic);
+        const correct = picNumb === buttonPushed;
+        const countCorrect = correct ? count + 1 : count;
+        const clicksCorrect = clicks + 1;
+
+        setClicks(clicksCorrect);
+        setScore(countCorrect/clicksCorrect);
+        setCount(countCorrect);
+        var nextPic = Math.floor(Math.random() * 7);
+        setPic(pictures[nextPic].src);
     }
 
     function resetCount(){
         setClicks(0)
-        localStorage.setItem('clicks', 0);
+        setCount(0)
         navigate('../scores');
-    }
-
-    function getPicture(){
-        return pictures[picNumb].src;
     }
 
     return (
          <main>
-             <img src={pictures[picNumb].src} width="302" height="228" alt="A picture of a note"/>
+             <img src={ pic } width="302" height="228" alt="A picture of a note"/>
              <div></div>
              <button className="login-buttons" onClick={resetCount}><Link className="links" to="../scores">Stop</Link></button>
              <div></div>
