@@ -12,17 +12,21 @@ export function Login({user, setUser}) {
     function textChange(e){
         setText(e.target.value);
     }
-
+    function guestUser(){
+        localStorage.setItem('user', 'Guest');
+        setUser('Guest');
+        navigate('play')
+    }
     return (
         <main>
             <h1>Welcome!</h1>
             <h2>Login</h2>
             <form method="get" action="play">
                 <label htmlFor="name">Student:</label>
-                <input type="text" value={text} onChange={textChange} />
+                <input type="text" placeholder="Your name here" value={text} onChange={textChange} />
                 <button className="login-buttons" onClick={loginUser}>Login</button>
             </form>
-            <button className="login-buttons"><Link className="links" to="play">Play</Link></button>
+            <button className="login-buttons" onClick={guestUser}>Play</button>
             <div></div>
             <button className="login-buttons"><Link className="links" to="about">Questions?</Link></button>
             <div>
