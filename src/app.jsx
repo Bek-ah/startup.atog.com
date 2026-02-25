@@ -11,6 +11,7 @@ import { Teacher } from './teacher/teacher';
 export default function App() {
     const [user, setUser] = React.useState(() => localStorage.getItem('user') || '');
     const [count, setCount] = React.useState(() => localStorage.getItem('count') || 0);
+    const [score, setScore] = React.useState(parseFloat(localStorage.getItem('score')) || 0);
     return (
       <BrowserRouter>
       <header>
@@ -18,9 +19,9 @@ export default function App() {
       </header>
 
       <Routes>
-        <Route path='/' element={<Login user={user} setUser={setUser} count={count} />} />
-        <Route path='/play' element={<Play user={user} setUser={setUser} />} />
-        <Route path='/scores' element={<Scores user={user} setUser={setUser} count={count} setCount={setCount} />} />
+        <Route path='/' element={<Login user={user} setUser={setUser} count={count} score={score} />} />
+        <Route path='/play' element={<Play user={user} setUser={setUser} score={score} setScore={setScore} />} />
+        <Route path='/scores' element={<Scores user={user} setUser={setUser} count={count} setCount={setCount} score={score} />} />
         <Route path='/about' element={<About user={user} setUser={setUser} />} />
         <Route path='/teacher' element={<Teacher />} />
         <Route path='*' element={<NotFound />} />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from "react-router-dom";
 
-export function Scores({user, count}) {
+export function Scores({user, count, score}) {
     const navigate = useNavigate();
 
     function logoutUser(){
@@ -14,7 +14,7 @@ export function Scores({user, count}) {
     return (
         <main>
             <h2>{user}'s Score</h2>
-            <p>Accuracy: </p> <p>80%</p>
+            <p>Accuracy: </p> <p>{score}%</p>
             <div>
                 <p id="encouragement-api">You're Amazing API!</p>
             </div>

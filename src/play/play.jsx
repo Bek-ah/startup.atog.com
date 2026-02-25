@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 
-export function Play({user}) {
+export function Play({user, score, setScore}) {
     const [count, setCount] = React.useState(parseFloat(localStorage.getItem('count')) || 1);
     const [clicks, setClicks] = React.useState(parseFloat(localStorage.getItem('clicks')) || 1);
-    const [score, setScore] = React.useState(parseFloat(localStorage.getItem('score')) || 0);
     const [pic, setPic] = React.useState(localStorage.getItem('pic') || '/treble_clef.jpg');
     const navigate = useNavigate();
     const picNumb = useState(() => Math.floor(Math.random() * 7));
@@ -32,9 +31,6 @@ export function Play({user}) {
         localStorage.setItem('count', count)
         }, [count])
     useEffect(() => {
-        localStorage.setItem('score', score)
-        }, [score])
-    useEffect(() => {
         localStorage.setItem('pic', pic)
         }, [pic])
 
@@ -46,6 +42,7 @@ export function Play({user}) {
         setpN(pic);
         setClicks(clicksCorrect);
         setScore((countCorrect/clicksCorrect)*100);
+        localStorage.setItem('score', score)
         setCount(countCorrect);
         var nextPic = Math.floor(Math.random() * 7);
         setPic(pictures[nextPic].src);
@@ -119,7 +116,7 @@ export function Play({user}) {
                  </button>
                  </div>
                  <div class="letters">
-                 <button onClick={() => countClick('/noteE.pdf')}>
+                 <button onClick={() => countClick('/noteE.png')}>
                      <svg width="100" height="100">
                      <circle cx="50" cy="50" r="40"
                          stroke="black" stroke-width="4" fill="white" />
