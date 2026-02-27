@@ -60,6 +60,14 @@ input {
     border-radius: 10px;
 }
 /*class selectors*/
+.score-table {
+    caption-side: bottom;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid;
+    border-collapse: separate;
+    border-spacing: 20px;
+    }
 .letterlist{
     display: flex;
     flex-wrap: wrap;

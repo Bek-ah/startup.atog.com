@@ -2,10 +2,11 @@ import React from 'react';
 import { Link } from "react-router-dom";
 
 export function Teacher() {
+    const [text, setText] = React.useState('');
   return (
-    <main class="teacher-background">
+    <main className="teacher-background">
     <h2>Scores</h2>
-    <table>
+    <table className='score-table'>
         <thead>
         <tr>
             <th>   </th>
@@ -31,6 +32,7 @@ export function Teacher() {
             </tr>
         </tbody>
     </table>
+    <div></div>
         <button className="login-buttons"><Link className="links" to="../">Home</Link></button>
         <div></div>
         <div></div>
@@ -39,10 +41,6 @@ export function Teacher() {
         <div></div>
         <button className="login-buttons"><Link className="links" to="../about">Questions?</Link></button>
     <div></div>
-    <ul class="notification">
-        <li class="student-name">John Smith grade changed</li>
-        <li class="student-name">Jane Doe grade changed</li>
-    </ul>
     </main>
 
   );
