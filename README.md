@@ -101,7 +101,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **All functionality implemented or mocked out** - I did not complete this part of the deliverable.
+- [x] **All functionality implemented or mocked out** - I got the game working. Also, scores are submitted to the teacher page.
 - [x] **Hooks** - I used useState hooks mostly in play.jsx and login.jsx for my variables. In play.jsx I used the useEffect hook to lessen repetitive code and sync things more clearly.
 
 ## 🚀 Service deliverable
