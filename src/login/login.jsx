@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Link, useNavigate } from "react-router-dom";
 
-export function Login({user, setUser}) {
+export function Login({user, setUser, teacher, setTeacher, score, setScore}) {
     const [text, setText] = React.useState('');
+    const [text2, setText2] = React.useState('');
     const navigate = useNavigate();
     function loginUser(){
         localStorage.setItem('user', text);
@@ -12,10 +13,18 @@ export function Login({user, setUser}) {
     function textChange(e){
         setText(e.target.value);
     }
+    function textChange2(e){
+        setText2(e.target.value);
+    }
     function guestUser(){
         localStorage.setItem('user', 'Guest');
         setUser('Guest');
-        navigate('play')
+        navigate('play');
+    }
+    function loginTeacher(){
+        localStorage.setItem('teacher', text2);
+        setTeacher(text2);
+        navigate('teacher');
     }
     return (
         <main>
@@ -30,10 +39,10 @@ export function Login({user, setUser}) {
             <div></div>
             <button className="login-buttons"><Link className="links" to="about">Questions?</Link></button>
             <div>
-                <form method="get" action="../teacher/teacher.html">
+                <form method="get" action="teacher">
                     <label htmlFor="name">Teacher:</label>
-                    <input id="ID" placeholder="Teacher ID here" type="text" />
-                    <button className="login-buttons"><Link className="links" to="teacher">Login</Link></button>
+                    <input type="text" placeholder="Teacher ID here" value={text2} onChange={textChange2} />
+                    <button className="login-buttons" onClick={loginTeacher}>Login</button>
                 </form>
             </div>
         </main>

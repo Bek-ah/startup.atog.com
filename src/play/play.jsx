@@ -44,106 +44,118 @@ export function Play({user, score, setScore}) {
         setScore((countCorrect/clicksCorrect)*100);
         localStorage.setItem('score', score)
         setCount(countCorrect);
+        if (clicksCorrect === 10 || clicksCorrect > 10){
+            setCount(0);
+            setClicks(0);
+            navigate('../scores')
+        }
         var nextPic = Math.floor(Math.random() * 7);
         setPic(pictures[nextPic].src);
     }
 
-    function resetCount(){
-        setClicks(0)
-        setCount(0)
-        navigate('../scores');
+    function aboutButton(){
+        localStorage.setItem('user', '');
+        localStorage.setItem('count', 0);
+        localStorage.setItem('score', 0);
+        navigate('../about');
+    }
+    function logoutButton(){
+        localStorage.setItem('user', '');
+        localStorage.setItem('count', 0);
+        localStorage.setItem('score', 0);
+        navigate('../');
     }
 
     return (
          <main>
              <img src={ pic } width="302" height="228" alt="A picture of a note"/>
              <div></div>
-             <button className="login-buttons" onClick={resetCount}><Link className="links" to="../scores">Stop</Link></button>
+             <button className="login-buttons" onClick={logoutButton}>Logout</button>
              <div></div>
              <button className="login-buttons"><Link className="links" to="../about">About</Link></button>
              <div></div>
-             <div class="users">
-                 <span class="player-name">{user}</span>
+             <div className="users">
+                 <span className="player-name">{user}</span>
              </div>
              <div>
-                 <label for="count">Accuracy:</label>
+                 <label htmlFor="count">Accuracy:</label>
                     <input type="text" id="count" value={'%' + score} readOnly/>
              </div>
-             <div class="letterlist">
-                 <div class="letters">
+             <div className="letterlist">
+                 <div className="letters">
                      <button onClick={() => countClick('/noteA.png')}>
                          <svg width="100" height="100">
                              <circle cx="50" cy="50" r="40"
-                             stroke="black" stroke-width="4" fill="white" />
+                             stroke="black" strokeWidth="4" fill="white" />
                              <text x="50%" y="50%"
-                              text-anchor="middle" fill="black" font-size="20"
-                              dominant-baseline="middle">A</text>
+                              textAnchor="middle" fill="black" fontSize="20"
+                              dominantBaseline="middle">A</text>
                          Error
                          </svg>
                      </button>
                  </div>
-                 <div class="letters">
+                 <div className="letters">
                      <button onClick={() => countClick('/noteB.png')}>
                          <svg width="100" height="100">
                          <circle cx="50" cy="50" r="40"
-                              stroke="black" stroke-width="4" fill="white" />
-                         <text x="50%" y="50%" text-anchor="middle" fill="black"
-                          font-size="20" dominant-baseline="middle">B</text>
+                              stroke="black" strokeWidth="4" fill="white" />
+                         <text x="50%" y="50%" textAnchor="middle" fill="black"
+                          fontSize="20" dominantBaseline="middle">B</text>
                          Error
                          </svg>
                      </button>
                  </div>
-                 <div class="letters">
+                 <div className="letters">
                  <button onClick={() => countClick('/noteC.png')}>
                      <svg width="100" height="100">
                      <circle cx="50" cy="50" r="40"
-                          stroke="black" stroke-width="4" fill="white" />
-                     <text x="50%" y="50%" text-anchor="middle" fill="black"
-                      font-size="20" dominant-baseline="middle">C</text>
+                          stroke="black" strokeWidth="4" fill="white" />
+                     <text x="50%" y="50%" textAnchor="middle" fill="black"
+                      fontSize="20" dominantBaseline="middle">C</text>
                      Error
                  </svg>
                  </button>
                  </div>
-                 <div class="letters">
+                 <div className="letters">
                  <button onClick={() => countClick('/noteD.png')}>
                      <svg width="100" height="100">
                      <circle cx="50" cy="50" r="40"
-                          stroke="black" stroke-width="4" fill="white" />
-                     <text x="50%" y="50%" text-anchor="middle" fill="black" font-size="20"
-                          dominant-baseline="middle">D</text>
+                          stroke="black" strokeWidth="4" fill="white" />
+                     <text x="50%" y="50%" textAnchor="middle" fill="black" fontSize="20"
+                          dominantBaseline="middle">D</text>
                      Error
                  </svg>
                  </button>
                  </div>
-                 <div class="letters">
+                 <div className="letters">
                  <button onClick={() => countClick('/noteE.png')}>
                      <svg width="100" height="100">
                      <circle cx="50" cy="50" r="40"
-                         stroke="black" stroke-width="4" fill="white" />
-                     <text x="50%" y="50%" text-anchor="middle" fill="black"
-                     font-size="20" dominant-baseline="middle">E</text>
+                         stroke="black" strokeWidth="4" fill="white" />
+                     <text x="50%" y="50%" textAnchor="middle" fill="black"
+                     fontSize="20" dominantBaseline="middle">E</text>
                      Error
                  </svg>
                  </button>
                  </div>
-                 <div class="letters">
+                 <div className="letters">
                  <button onClick={() => countClick('/noteF.png')}>
                      <svg width="100" height="100">
                      <circle cx="50" cy="50" r="40"
-                         stroke="black" stroke-width="4" fill="white" />
-                     <text x="50%" y="50%" text-anchor="middle" fill="black" font-size="20"
-                          dominant-baseline="middle">F</text>
+                         stroke="black" strokeWidth="4" fill="white" />
+                     <text x="50%" y="50%" textAnchor="middle" fill="black" fontSize="20"
+                          dominantBaseline="middle">F</text>
                      Error
                  </svg>
                  </button>
                  </div>
-                 <div class="letters">
+                 <div className="letters">
                  <button onClick={() => countClick('/noteG.png')}>
                      <svg width="100" height="100">
                      <circle cx="50" cy="50" r="40"
-                         stroke="black" stroke-width="4" fill="white" />
-                     <text x="50%" y="50%" text-anchor="middle" fill="black"
-                     font-size="20" dominant-baseline="middle">G</text>
+                         stroke="black" strokeWidth="4" fill="white" />
+                     <text x="50%" y="50%" textAnchor="middle" fill="black"
+                     fontSize="20" dominantBaseline="middle">G</text>
                      Error
                  </svg>
                  </button>
