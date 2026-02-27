@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import { Link } from "react-router-dom";
-import { Submission, SubmissionUpdated } from './submissionNotification';
+import { Submission, SubmissionUpdated } from './submissionNotification.js';
 
 export function Teacher({user, score, teacher}) {
     const [scores, setScores] = React.useState([]);
