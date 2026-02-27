@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link, useNavigate } from "react-router-dom";
 
-export function Scores({user, count, score}) {
+export function Scores({subDate, setSubDate, user, count, score, submission, setSubmission, setSU, submissionuser}) {
     const navigate = useNavigate();
-    const submission = 0;
+    const date = new Date();
+
     function logoutUser(){
         localStorage.setItem('user', '');
         localStorage.setItem('count', 0);
@@ -11,7 +12,12 @@ export function Scores({user, count, score}) {
         navigate('../');
     }
     function submitButton(){
+        setSubmission(score);
         localStorage.setItem('submission', score);
+        setSU(user);
+        localStorage.setItem('submissionuser', user);
+        setSubDate(Date());
+        localStorage.setItem('subDate', Date());
         logoutUser();
     }
     function againButton(){

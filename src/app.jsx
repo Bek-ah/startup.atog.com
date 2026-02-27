@@ -13,6 +13,10 @@ export default function App() {
     const [teacher, setTeacher] = React.useState(() => localStorage.getItem('teacher') || '');
     const [count, setCount] = React.useState(() => localStorage.getItem('count') || 0);
     const [score, setScore] = React.useState(parseFloat(localStorage.getItem('score')) || 0);
+    const [submission, setSubmission] = React.useState(parseFloat(localStorage.getItem('submission')) || 0);
+    const [submissionuser, setSU] = React.useState(parseFloat(localStorage.getItem('submissionuser')) || '');
+    const [subDate, setSubDate] = React.useState(parseFloat(localStorage.getItem('subDate')) || '');
+
     return (
       <BrowserRouter>
       <header>
@@ -22,9 +26,9 @@ export default function App() {
       <Routes>
         <Route path='/' element={<Login user={user} setUser={setUser} count={count} score={score} />} />
         <Route path='/play' element={<Play user={user} setUser={setUser} score={score} setScore={setScore} />} />
-        <Route path='/scores' element={<Scores user={user} setUser={setUser} count={count} setCount={setCount} score={score} />} />
+        <Route path='/scores' element={<Scores subDate={subDate} setSubDate={setSubDate} submissionuser={submissionuser} setSU={setSU} submission={submission} setSubmission={setSubmission} user={user} setUser={setUser} count={count} setCount={setCount} score={score} />} />
         <Route path='/about' element={<About user={user} setUser={setUser} />} />
-        <Route path='/teacher' element={<Teacher teacher={teacher} user={user} score={score} />} />
+        <Route path='/teacher' element={<Teacher subDate={subDate} submissionuser={submissionuser} submission={submission} teacher={teacher} user={user} />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
 
