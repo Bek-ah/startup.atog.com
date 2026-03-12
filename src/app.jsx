@@ -28,7 +28,7 @@ export default function App() {
         <Route path='/play' element={<Play user={user} setUser={setUser} score={score} setScore={setScore} />} />
         <Route path='/scores' element={<Scores subDate={subDate} setSubDate={setSubDate} submissionuser={submissionuser} setSU={setSU} submission={submission} setSubmission={setSubmission} user={user} setUser={setUser} count={count} setCount={setCount} score={score} />} />
         <Route path='/about' element={<About user={user} setUser={setUser} />} />
-        <Route path='/teacher' element={<Teacher subDate={subDate} submissionuser={submissionuser} submission={submission} teacher={teacher} user={user} />} />
+        <Route path='/teacher' element={<Teacher subDate={localStorage.getItem('subDate')} submissionuser={localStorage.getItem('submissionuser')} submission={submission} teacher={teacher} user={user} />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
 
