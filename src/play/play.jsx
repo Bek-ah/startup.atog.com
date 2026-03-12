@@ -70,7 +70,7 @@ export function Play({user, score, setScore}) {
          <main>
              <img src={ pic } width="302" height="228" alt="A picture of a note"/>
              <div></div>
-             <button className="login-buttons" onClick={logoutButton}>Logout</button>
+             <button className="login-buttons" onClick={logoutButton}>Home</button>
              <div></div>
              <button className="login-buttons"><Link className="links" to="../about">About</Link></button>
              <div></div>

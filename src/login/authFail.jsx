@@ -1,12 +1,14 @@
 import React from 'react';
 
 import Button from 'react-bootstrap/Button';
-import { MessageDialog } from './messageDialog';
+import { Popup } from './loginFailPopup';
 
 export function Unauthenticated(props) {
-  const [userName, setUserName] = React.useState(props.userName);
+  const [user, setUser] = React.useState(props.user);
+  const [userT, setUserT] = React.useState(props.teacher);
   const [password, setPassword] = React.useState('');
   const [displayError, setDisplayError] = React.useState(null);
+  const [passwordT, setPasswordT] = React.useState('');
 
   async function loginUser() {
     loginOrCreate(`/api/auth/login`);
@@ -19,40 +21,39 @@ export function Unauthenticated(props) {
   async function loginOrCreate(endpoint) {
     const response = await fetch(endpoint, {
       method: 'post',
-      body: JSON.stringify({ email: userName, password: password }),
+      body: JSON.stringify({ email: user, password: password }),
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
       },
     });
     if (response?.status === 200) {
-      localStorage.setItem('userName', userName);
-      props.onLogin(userName);
+      localStorage.setItem('user', user);
+      props.onLogin(user);
     } else {
       const body = await response.json();
-      setDisplayError(`⚠ Error: ${body.msg}`);
+      setDisplayError(`Error: ${body.msg}`);
     }
   }
 
   return (
     <>
       <div>
-        <div className='input-group mb-3'>
-          <span className='input-group-text'>@</span>
-          <input className='form-control' type='text' value={userName} onChange={(e) => setUserName(e.target.value)} placeholder='your@email.com' />
+        <h2>Student Login:</h2>
+        <div>
+          <input type='text' value={user} onChange={(e) => setUser(e.target.value)} placeholder='Username here' />
         </div>
-        <div className='input-group mb-3'>
-          <span className='input-group-text'>🔒</span>
-          <input className='form-control' type='password' onChange={(e) => setPassword(e.target.value)} placeholder='password' />
+        <div>
+          <input type='password' onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
         </div>
-        <Button variant='primary' onClick={() => loginUser()} disabled={!userName || !password}>
+        <Button onClick={() => loginUser()} disabled={!user || !password}>
           Login
         </Button>
-        <Button variant='secondary' onClick={() => createUser()} disabled={!userName || !password}>
+        <Button onClick={() => createUser()} disabled={!user || !password}>
           Create
         </Button>
       </div>
 
-      <MessageDialog message={displayError} onHide={() => setDisplayError(null)} />
+      <Popup message={displayError} onHide={() => setDisplayError(null)} />
     </>
   );
 }

@@ -17,7 +17,7 @@ export default function App() {
     const [submission, setSubmission] = React.useState(parseFloat(localStorage.getItem('submission')) || 0);
     const [submissionuser, setSU] = React.useState(parseFloat(localStorage.getItem('submissionuser')) || '');
     const [subDate, setSubDate] = React.useState(parseFloat(localStorage.getItem('subDate')) || '');
-    const currentAuthState = userName ? AuthState.Authenticated : AuthState.Unauthenticated;
+    const currentAuthState = user ? AuthState.Authenticated : AuthState.Unauthenticated;
     const [authState, setAuthState] = React.useState(currentAuthState);
 
     return (
@@ -29,9 +29,9 @@ export default function App() {
       <Routes>
         <Route path='/' element={<Login user={user} setUser={setUser} count={count} score={score}
            authState={authState}
-           onAuthChange={(userName, authState) => {
+           onAuthChange={(user, authState) => {
            setAuthState(authState);
-           setUserName(userName);
+           setUser(user);
            }}
          />} />
         <Route path='/play' element={<Play user={user} setUser={setUser} score={score} setScore={setScore} />} />

@@ -51,7 +51,7 @@ export function Scores({subDate, setSubDate, user, count, score, submission, set
                 <p id="encouragement-api">{message}</p>
                 <p id="encouragement-api">-{quoteAuthor}</p>
             </div>
-            <button className="login-buttons" onClick={logoutUser}>Log Out</button>
+            <button className="login-buttons" onClick={logoutUser}>Home</button>
             <div></div>
             <div></div>
             <button className="login-buttons" onClick={submitButton}>Submit</button>

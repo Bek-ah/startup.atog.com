@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Link, useNavigate } from "react-router-dom";
-import { Unauthenticated } from './unauthenticated';
-import { Authenticated } from './authenticated';
+import { Unauthenticated } from './authFail';
+import { Authenticated } from './loggedIn';
 import { AuthState } from './authState';
 
 export function Login({user, setUser, teacher, setTeacher, score, setScore, authState, onAuthChange}) {
@@ -34,37 +34,17 @@ export function Login({user, setUser, teacher, setTeacher, score, setScore, auth
             <div>
                 {authState !== AuthState.Unknown && <h1>Welcome!</h1>}
                 {authState === AuthState.Authenticated && (
-                  <Authenticated userName={userName} onLogout={() => onAuthChange(userName, AuthState.Unauthenticated)} />
+                  <Authenticated user={user} onLogout={() => onAuthChange(user, AuthState.Unauthenticated)} />
                 )}
                 {authState === AuthState.Unauthenticated && (
                   <Unauthenticated
-                    userName={userName}
-                    onLogin={(loginUserName) => {
-                      onAuthChange(loginUserName, AuthState.Authenticated);
+                    user={user}
+                    onLogin={(loginUser) => {
+                      onAuthChange(loginUser, AuthState.Authenticated);
                     }}
                   />
                 )}
             </div>
-
-
-
-            <h1>Welcome!</h1>
-            <h2>Login</h2>
-            <form method="get" action="play">
-                <label htmlFor="name">Student:</label>
-                <input type="text" placeholder="Your name here" value={text} onChange={textChange} />
-                <button className="login-buttons" onClick={loginUser}>Login</button>
-            </form>
-            <button className="login-buttons" onClick={guestUser}>Play</button>
-            <div></div>
-            <button className="login-buttons"><Link className="links" to="about">Questions?</Link></button>
-            <div>
-                <form method="get" action="teacher">
-                    <label htmlFor="name">Teacher:</label>
-                    <input type="text" placeholder="Teacher ID here" value={text2} onChange={textChange2} />
-                    <button className="login-buttons" onClick={loginTeacher}>Login</button>
-                </form>
-            </div>
-        </main>*/
+        </main>
   );
 }
