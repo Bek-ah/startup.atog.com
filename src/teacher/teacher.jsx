@@ -1,19 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import { Link } from "react-router-dom";
 
-export function Teacher({submissionuser, submission, subDate}) {
+export function Teacher({subDate, submission, submissionuser}) {
     const submissionList = useState(() => localStorage.getItem('submissionList') || 0);
     const userList = useState(() => localStorage.getItem('userList') || '');
     const dateList = useState(() => localStorage.getItem('dateList') || '')
 
-    useEffect(() => {
-        submissionList.push(submission);
-        userList.push(submissionuser);
-        dateList.push(subDate);
-    }, [submission])
   return (
     <main className="teacher-background">
-              <p>-{userList}-</p>
     <h2>Scores</h2>
     <table className='score-table'>
         <thead>
@@ -27,9 +21,9 @@ export function Teacher({submissionuser, submission, subDate}) {
         <tbody>
             <tr>
                 <td>1</td>
-                <td>"Jane Doe"</td>
+                <td>{submissionuser}</td>
                 <td>{submission}%</td>
-                <td>2/26/2026</td>
+                <td>{subDate}</td>
             </tr>
         </tbody>
     </table>
