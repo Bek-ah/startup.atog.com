@@ -6,6 +6,7 @@ import { Login } from './login/login';
 import { Play } from './play/play';
 import { Scores } from './scores/scores';
 import { About } from './about/about';
+import { AuthState } from './login/authState';
 import { Teacher } from './teacher/teacher';
 
 export default function App() {
@@ -16,6 +17,8 @@ export default function App() {
     const [submission, setSubmission] = React.useState(parseFloat(localStorage.getItem('submission')) || 0);
     const [submissionuser, setSU] = React.useState(parseFloat(localStorage.getItem('submissionuser')) || '');
     const [subDate, setSubDate] = React.useState(parseFloat(localStorage.getItem('subDate')) || '');
+    const currentAuthState = userName ? AuthState.Authenticated : AuthState.Unauthenticated;
+    const [authState, setAuthState] = React.useState(currentAuthState);
 
     return (
       <BrowserRouter>
@@ -24,7 +27,13 @@ export default function App() {
       </header>
 
       <Routes>
-        <Route path='/' element={<Login user={user} setUser={setUser} count={count} score={score} />} />
+        <Route path='/' element={<Login user={user} setUser={setUser} count={count} score={score}
+           authState={authState}
+           onAuthChange={(userName, authState) => {
+           setAuthState(authState);
+           setUserName(userName);
+           }}
+         />} />
         <Route path='/play' element={<Play user={user} setUser={setUser} score={score} setScore={setScore} />} />
         <Route path='/scores' element={<Scores subDate={subDate} setSubDate={setSubDate} submissionuser={submissionuser} setSU={setSU} submission={submission} setSubmission={setSubmission} user={user} setUser={setUser} count={count} setCount={setCount} score={score} />} />
         <Route path='/about' element={<About user={user} setUser={setUser} />} />

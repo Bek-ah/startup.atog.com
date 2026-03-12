@@ -4,7 +4,18 @@ import { Link, useNavigate } from "react-router-dom";
 export function Scores({subDate, setSubDate, user, count, score, submission, setSubmission, setSU, submissionuser}) {
     const navigate = useNavigate();
     const date = new Date();
+    const [message, setMessage] = React.useState('You are awesome!');
+    const [quoteAuthor, setQuoteAuthor] = React.useState('Me');
 
+    React.useEffect(() => {
+        fetch('https://quote.cs260.click')
+        .then((response) => response.json())
+        .then((data) => {
+            setMessage(data.quote);
+            setQuoteAuthor(data.author);
+            })
+        .catch();
+    }, []);
     function logoutUser(){
         localStorage.setItem('user', '');
         localStorage.setItem('count', 0);
@@ -37,7 +48,8 @@ export function Scores({subDate, setSubDate, user, count, score, submission, set
             <h2>{user}'s Score</h2>
             <p>Accuracy: </p> <p>{score}%</p>
             <div>
-                <p id="encouragement-api">You're Amazing API!</p>
+                <p id="encouragement-api">{message}</p>
+                <p id="encouragement-api">-{quoteAuthor}</p>
             </div>
             <button className="login-buttons" onClick={logoutUser}>Log Out</button>
             <div></div>

@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Link, useNavigate } from "react-router-dom";
+import { Unauthenticated } from './unauthenticated';
+import { Authenticated } from './authenticated';
+import { AuthState } from './authState';
 
-export function Login({user, setUser, teacher, setTeacher, score, setScore}) {
+export function Login({user, setUser, teacher, setTeacher, score, setScore, authState, onAuthChange}) {
     const [text, setText] = React.useState('');
     const [text2, setText2] = React.useState('');
     const navigate = useNavigate();
@@ -28,6 +31,23 @@ export function Login({user, setUser, teacher, setTeacher, score, setScore}) {
     }
     return (
         <main>
+            <div>
+                {authState !== AuthState.Unknown && <h1>Welcome!</h1>}
+                {authState === AuthState.Authenticated && (
+                  <Authenticated userName={userName} onLogout={() => onAuthChange(userName, AuthState.Unauthenticated)} />
+                )}
+                {authState === AuthState.Unauthenticated && (
+                  <Unauthenticated
+                    userName={userName}
+                    onLogin={(loginUserName) => {
+                      onAuthChange(loginUserName, AuthState.Authenticated);
+                    }}
+                  />
+                )}
+            </div>
+
+
+
             <h1>Welcome!</h1>
             <h2>Login</h2>
             <form method="get" action="play">
@@ -45,6 +65,6 @@ export function Login({user, setUser, teacher, setTeacher, score, setScore}) {
                     <button className="login-buttons" onClick={loginTeacher}>Login</button>
                 </form>
             </div>
-        </main>
+        </main>*/
   );
 }
