@@ -5,7 +5,7 @@ import { Popup } from './loginFailPopup';
 
 export function Unauthenticated(props) {
   const [user, setUser] = React.useState(props.user);
-  const [userT, setUserT] = React.useState(props.teacher);
+  const [teacher, setTeacher] = React.useState(props.teacher);
   const [password, setPassword] = React.useState('');
   const [displayError, setDisplayError] = React.useState(null);
   const [passwordT, setPasswordT] = React.useState('');
@@ -15,11 +15,18 @@ export function Unauthenticated(props) {
     loginOrCreate(`/api/auth/login`);
     console.log("code passed login api");
   }
-
+  async function loginTeacher() {
+    console.log("Login clicked");
+    loginOrCreate(`/api/auth/loginTeacher`);
+    console.log("code passed loginTeacher api");
+  }
   async function createUser() {
     loginOrCreate(`/api/auth/create`);
   }
-
+  async function createTeacher() {
+    console.log("createTeacher authFail.jsx function reached");
+    loginOrCreateTeacher(`/api/auth/createTeacher`);
+  }
   async function loginOrCreate(endpoint) {
     const response = await fetch(endpoint, {
       method: 'post',
@@ -36,7 +43,22 @@ export function Unauthenticated(props) {
       setDisplayError(`Error: ${body.msg}`);
     }
   }
-
+  async function loginOrCreateTeacher(endpoint) {
+    const response = await fetch(endpoint, {
+      method: 'post',
+      body: JSON.stringify({ teacher: teacher, passwordT: passwordT }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    });
+    if (response?.status === 200) {
+      localStorage.setItem('teacher', teacher);
+      props.onLogin(teacher);
+    } else {
+      const body = await response.json();
+      setDisplayError(`Error: ${body.msg}`);
+    }
+  }
   return (
     <>
       <div>
@@ -51,6 +73,19 @@ export function Unauthenticated(props) {
           Login
         </Button>
         <Button className='login-buttons' onClick={() => createUser()} disabled={!user || !password}>
+          Create
+        </Button>
+        <h2>Teacher Login:</h2>
+        <div>
+          <input type='text2' value={teacher} onChange={(e) => setTeacher(e.target.value)} placeholder='Username here' />
+        </div>
+        <div>
+          <input type='password' onChange={(e) => setPasswordT(e.target.value)} placeholder='Password' />
+        </div>
+        <Button className='login-buttons' onClick={() => loginTeacher()} disabled={!teacher || !passwordT}>
+          Login
+        </Button>
+        <Button className='login-buttons' onClick={() => createTeacher()} disabled={!teacher || !passwordT}>
           Create
         </Button>
       </div>

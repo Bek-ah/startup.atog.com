@@ -27,7 +27,7 @@ export default function App() {
       </header>
 
       <Routes>
-        <Route path='/' element={<Login user={user} setUser={setUser} count={count} score={score}
+        <Route path='/' element={<Login teacher={teacher} setTeacher={setTeacher} user={user} setUser={setUser} count={count} score={score}
            authState={authState}
            onAuthChange={(user, authState) => {
            setAuthState(authState);

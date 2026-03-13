@@ -9,10 +9,7 @@ export function Login({user, setUser, teacher, setTeacher, score, setScore, auth
     const [text, setText] = React.useState('');
     const [text2, setText2] = React.useState('');
     const navigate = useNavigate();
-    function loginUser(){
-        localStorage.setItem('user', text);
-        setUser(text);
-    }
+
     function textChange(e){
         setText(e.target.value);
     }
@@ -24,11 +21,7 @@ export function Login({user, setUser, teacher, setTeacher, score, setScore, auth
         setUser('Guest');
         navigate('play');
     }
-    function loginTeacher(){
-        localStorage.setItem('teacher', text2);
-        setTeacher(text2);
-        navigate('teacher');
-    }
+
     return (
         <main>
             <div>

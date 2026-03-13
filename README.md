@@ -108,12 +108,12 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [x] **Node.js/Express HTTP service** - Default port is 4000. I use npm to debug.
-- [ ] **Static middleware for frontend** - I did not complete this part of the deliverable.
+- [x] **Node.js/Express HTTP service** - Default port is 5000. I use npm to debug.
+- [x] **Static middleware for frontend** - I put endpoints index.js in my service folder.
 - [x] **Calls to third party endpoints** - Scores page calls for a new inspirational quote every time it loads.
-- [ ] **Backend service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Frontend calls service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Supports registration, login, logout, and restricted endpoint** - I did not complete this part of the deliverable.
+- [x] **Backend service endpoints** - I put endpoints in index.js in my service folder for authentication and scores.
+- [x] **Frontend calls service endpoints** - I used calls to the api's in index.js in my service folder.
+- [x] **Supports registration, login, logout, and restricted endpoint** - It supports registration, login and logout.
 
 ## 🚀 DB deliverable
 

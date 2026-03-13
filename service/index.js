@@ -10,6 +10,7 @@ const authCookieName = 'token';
 // The scores and users are saved in memory and disappear whenever the service is restarted.
 let users = [];
 let scores = [];
+let teachers = [];
 
 // The service port. In production the front-end code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 5000;
@@ -39,9 +40,38 @@ apiRouter.post('/auth/create', async (req, res) => {
   }
 });
 
+// CreateAuth a new teacher
+apiRouter.post('/auth/createTeacher', async (req, res) => {
+  if (await findTeacher('teacher', req.body.teacher)) {
+    res.status(409).send({ msg: 'Existing teacher' });
+  } else {
+    console.log("entered api router password: ");
+    const teacher = await createTeacher(req.body.teacher, req.body.passwordT);
+    console.log("created Teacher, starting Cookie");
+    setAuthCookie(res, teacher.token);
+    res.send({ teacher: teacher.teacher });
+  }
+});
+
+// GetAuth login an existing teacher
+apiRouter.post('/auth/loginTeacher', async (req, res) => {
+  const user = await findTeacher('teacher', req.body.teacher);
+  console.log('Login attempt:', req.body);
+  if (user) {
+    if (await bcrypt.compare(req.body.password, teacher.password)) {
+      teacher.token = uuid.v4();
+      setAuthCookie(res, teacher.token);
+      res.send({ teacher: teacher.teacher });
+      return;
+    }
+  }
+  res.status(401).send({ msg: 'Unauthorized' });
+});
+
 // GetAuth login an existing user
 apiRouter.post('/auth/login', async (req, res) => {
   const user = await findUser('user', req.body.user);
+  console.log('Login attempt:', req.body);
   if (user) {
     if (await bcrypt.compare(req.body.password, user.password)) {
       user.token = uuid.v4();
@@ -58,6 +88,15 @@ apiRouter.delete('/auth/logout', async (req, res) => {
   const user = await findUser('token', req.cookies[authCookieName]);
   if (user) {
     delete user.token;
+  }
+  res.clearCookie(authCookieName);
+  res.status(204).end();
+});
+
+apiRouter.delete('/auth/logoutTeacher', async (req, res) => {
+  const teacher = await findTeacher('token', req.cookies[authCookieName]);
+  if (teacher) {
+    delete teacher.token;
   }
   res.clearCookie(authCookieName);
   res.status(204).end();
@@ -124,15 +163,43 @@ async function createUser(user, password) {
     password: passwordHash,
     token: uuid.v4(),
   };
-  users.push(user);
+  users.push(userData);
 
   return user;
 }
 
+async function createTeacher(teacher, passwordT) {
+  console.log("password to hash: ", passwordT);
+  const passwordHash = await bcrypt.hash(passwordT, 10);
+  console.log("creating teacher");
+  const teacherData = {
+    teacher: teacher,
+    passwordT: passwordHash,
+    token: uuid.v4(),
+  };
+  teachers.push(teacherData);
+  console.log("teachers: ", teachers);
+  return teacher;
+}
+
 async function findUser(field, value) {
   if (!value) return null;
+  for (const u in users) {
+    if (users[u][field] === value){
+      return users[u];
+    }
+  }
+  return null;
+}
 
-  return users.find((u) => u[field] === value);
+async function findTeacher(field, value) {
+  if (!value) return null;
+  for (const t in teachers) {
+    if (teachers[t][field] === value){
+      return teachers[t];
+    }
+  }
+  return null;
 }
 
 // setAuthCookie in the HTTP response

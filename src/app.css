@@ -84,11 +84,13 @@ input {
     border-radius: 10px;
     border-color: #000000;
     margin: 5px 5px;
+    color: white;
 }
 .login-buttons:hover{
     background-color: #4b7480;
     border-radius: 10px;
     border-color: #000000;
+    color: white;
 }
 .login-buttons:disabled{
     background-color: #538694;
