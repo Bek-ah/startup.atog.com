@@ -11,7 +11,9 @@ export function Unauthenticated(props) {
   const [passwordT, setPasswordT] = React.useState('');
 
   async function loginUser() {
+      console.log("Login clicked");
     loginOrCreate(`/api/auth/login`);
+    console.log("code passed login api");
   }
 
   async function createUser() {
@@ -45,10 +47,10 @@ export function Unauthenticated(props) {
         <div>
           <input type='password' onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
         </div>
-        <Button onClick={() => loginUser()} disabled={!user || !password}>
+        <Button className='login-buttons' onClick={() => loginUser()} disabled={!user || !password}>
           Login
         </Button>
-        <Button onClick={() => createUser()} disabled={!user || !password}>
+        <Button className='login-buttons' onClick={() => createUser()} disabled={!user || !password}>
           Create
         </Button>
       </div>

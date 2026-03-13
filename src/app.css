@@ -80,7 +80,18 @@ input {
     padding: 10px;
 }
 .login-buttons {
-    background-color: #EBF6F9;
+    background-color: #56a4ba;
+    border-radius: 10px;
+    border-color: #000000;
+    margin: 5px 5px;
+}
+.login-buttons:hover{
+    background-color: #4b7480;
+    border-radius: 10px;
+    border-color: #000000;
+}
+.login-buttons:disabled{
+    background-color: #538694;
     border-radius: 10px;
     border-color: #000000;
 }

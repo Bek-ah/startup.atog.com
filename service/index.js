@@ -1,12 +1,10 @@
-const port = process.argv.length > 2 ? process.argv[2] : 4000;
-app.use(express.static('public'));
 
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const express = require('express');
 const uuid = require('uuid');
 const app = express();
-
+app.use(express.static('public'));
 const authCookieName = 'token';
 
 // The scores and users are saved in memory and disappear whenever the service is restarted.
@@ -14,7 +12,7 @@ let users = [];
 let scores = [];
 
 // The service port. In production the front-end code is statically hosted by the service on the same port.
-const port = process.argv.length > 2 ? process.argv[2] : 4000;
+const port = process.argv.length > 2 ? process.argv[2] : 5000;
 
 // JSON body parsing using built-in middleware
 app.use(express.json());
@@ -31,24 +29,24 @@ app.use(`/api`, apiRouter);
 
 // CreateAuth a new user
 apiRouter.post('/auth/create', async (req, res) => {
-  if (await findUser('email', req.body.email)) {
+  if (await findUser('user', req.body.user)) {
     res.status(409).send({ msg: 'Existing user' });
   } else {
-    const user = await createUser(req.body.email, req.body.password);
+    const user = await createUser(req.body.user, req.body.password);
 
     setAuthCookie(res, user.token);
-    res.send({ email: user.email });
+    res.send({ user: user.user });
   }
 });
 
 // GetAuth login an existing user
 apiRouter.post('/auth/login', async (req, res) => {
-  const user = await findUser('email', req.body.email);
+  const user = await findUser('user', req.body.user);
   if (user) {
     if (await bcrypt.compare(req.body.password, user.password)) {
       user.token = uuid.v4();
       setAuthCookie(res, user.token);
-      res.send({ email: user.email });
+      res.send({ user: user.user });
       return;
     }
   }
@@ -76,12 +74,12 @@ const verifyAuth = async (req, res, next) => {
 };
 
 // GetScores
-apiRouter.get('/scores', verifyAuth, (_req, res) => {
+apiRouter.get('/teacher', verifyAuth, (_req, res) => {
   res.send(scores);
 });
 
 // SubmitScore
-apiRouter.post('/score', verifyAuth, (req, res) => {
+apiRouter.post('/teacher', verifyAuth, (req, res) => {
   scores = updateScores(req.body);
   res.send(scores);
 });
@@ -118,11 +116,11 @@ function updateScores(newScore) {
   return scores;
 }
 
-async function createUser(email, password) {
+async function createUser(user, password) {
   const passwordHash = await bcrypt.hash(password, 10);
 
-  const user = {
-    email: email,
+  const userData = {
+    user: user,
     password: passwordHash,
     token: uuid.v4(),
   };
@@ -159,5 +157,5 @@ const server = http.createServer(function (req, res) {
 });
 
 server.listen(4000, () => {
-  console.log(`Web service listening on port 4000`);
+  console.log(`Web service listening on port 5000`);
 });
