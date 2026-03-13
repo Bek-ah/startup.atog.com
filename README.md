@@ -108,7 +108,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [x] **Node.js/Express HTTP service** - Default port is 5000. I use npm to debug.
+- [x] **Node.js/Express HTTP service** - I used NPM to debug. Default port is 5000 if I want it to work. I submitted with 4000 because it said I had to, but when I put in 5000 in my testing environment it started working. My production environment keeps giving 502 errors, I tried the stuff on github and it isn't working but if you want to see my code working it will work in a testing environment with 5000. 4000 throws a 4000 already is in use error.
 - [x] **Static middleware for frontend** - I put endpoints index.js in my service folder.
 - [x] **Calls to third party endpoints** - Scores page calls for a new inspirational quote every time it loads.
 - [x] **Backend service endpoints** - I put endpoints in index.js in my service folder for authentication and scores.

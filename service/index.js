@@ -13,7 +13,7 @@ let scores = [];
 let teachers = [];
 
 // The service port. In production the front-end code is statically hosted by the service on the same port.
-const port = process.argv.length > 2 ? process.argv[2] : 5000;
+const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
 // JSON body parsing using built-in middleware
 app.use(express.json());
@@ -231,6 +231,6 @@ const server = http.createServer(function (req, res) {
   res.end();
 });
 
-server.listen(4000, () => {
-  console.log(`Web service listening on port 5000`);
+server.listen(port, () => {
+  console.log(`Web service listening on port ${port}`);
 });
