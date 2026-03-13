@@ -231,6 +231,6 @@ const server = http.createServer(function (req, res) {
   res.end();
 });
 
-server.listen(port, () => {
-  console.log(`Web service listening on port ${port}`);
+server.listen(5000, () => {
+  console.log(`Web service listening on port 5000`);
 });
