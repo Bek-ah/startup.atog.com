@@ -18,7 +18,9 @@ export function Authenticated(props) {
         props.onLogout();
       });
   }
-
+  async function isTeacher() {
+    loginOrCreate(`/api/auth/findTeacher`);
+  }
   return (
     <div>
       <div className='playerName'>{props.user}</div>
@@ -27,6 +29,9 @@ export function Authenticated(props) {
       </Button>
       <Button className='login-buttons' variant='secondary' onClick={() => logout()}>
         Logout
+      </Button>
+      <Button className='login-buttons' variant='secondary' onClick={() => logout()} disabled={isTeacher()}>
+        Teacher View
       </Button>
     </div>
   );

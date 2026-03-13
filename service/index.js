@@ -55,10 +55,10 @@ apiRouter.post('/auth/createTeacher', async (req, res) => {
 
 // GetAuth login an existing teacher
 apiRouter.post('/auth/loginTeacher', async (req, res) => {
-  const user = await findTeacher('teacher', req.body.teacher);
+  const teacher = await findTeacher('teacher', req.body.teacher);
   console.log('Login attempt:', req.body);
-  if (user) {
-    if (await bcrypt.compare(req.body.password, teacher.password)) {
+  if (teacher) {
+    if (await bcrypt.compare(req.body.passwordT, teacher.passwordT)) {
       teacher.token = uuid.v4();
       setAuthCookie(res, teacher.token);
       res.send({ teacher: teacher.teacher });
@@ -111,14 +111,22 @@ const verifyAuth = async (req, res, next) => {
     res.status(401).send({ msg: 'Unauthorized' });
   }
 };
-
+// Middleware to verify that the user is a teacher
+const verifyAuthTeacher = async (req, res, next) => {
+  const teacher = await findTeacher('token', req.cookies[authCookieName]);
+  if (teacher) {
+    next();
+  } else {
+    res.status(401).send({ msg: 'Unauthorized' });
+  }
+};
 // GetScores
-apiRouter.get('/teacher', verifyAuth, (_req, res) => {
+apiRouter.get('/teacher', verifyAuthTeacher, (_req, res) => {
   res.send(scores);
 });
 
 // SubmitScore
-apiRouter.post('/teacher', verifyAuth, (req, res) => {
+apiRouter.post('/score', verifyAuth, (req, res) => {
   scores = updateScores(req.body);
   res.send(scores);
 });

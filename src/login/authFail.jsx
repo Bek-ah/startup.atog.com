@@ -11,20 +11,19 @@ export function Unauthenticated(props) {
   const [passwordT, setPasswordT] = React.useState('');
 
   async function loginUser() {
-      console.log("Login clicked");
+    console.log("Login clicked");
     loginOrCreate(`/api/auth/login`);
     console.log("code passed login api");
   }
   async function loginTeacher() {
     console.log("Login clicked");
-    loginOrCreate(`/api/auth/loginTeacher`);
+    loginOrCreateTeacher(`/api/auth/loginTeacher`);
     console.log("code passed loginTeacher api");
   }
   async function createUser() {
     loginOrCreate(`/api/auth/create`);
   }
   async function createTeacher() {
-    console.log("createTeacher authFail.jsx function reached");
     loginOrCreateTeacher(`/api/auth/createTeacher`);
   }
   async function loginOrCreate(endpoint) {
