@@ -30,7 +30,7 @@ export function Authenticated(props) {
       <Button className='login-buttons' variant='secondary' onClick={() => logout()}>
         Logout
       </Button>
-      <Button className='login-buttons' variant='secondary' onClick={() => logout()} disabled={isTeacher()}>
+      <Button className='login-buttons' variant='secondary' onClick={() => navigate('/teacher')} disabled={!(props.teacherAuth==='true') || !props.teacherAuth}>
         Teacher View
       </Button>
     </div>

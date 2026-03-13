@@ -8,7 +8,7 @@ export function Scores({subDate, setSubDate, user, count, score, submission, set
     const [quoteAuthor, setQuoteAuthor] = React.useState('Me');
 
     React.useEffect(() => {
-        fetch('https://quote.cs260.click')
+        fetch('https://quoteslate.vercel.app/api/quotes/random?tags=motivation')
         .then((response) => response.json())
         .then((data) => {
             setMessage(data.quote);
@@ -61,6 +61,8 @@ export function Scores({subDate, setSubDate, user, count, score, submission, set
             <div></div>
             <div></div>
             <button className="login-buttons" onClick={aboutButton}>Questions?</button>
+            <div></div>
+            <p>Quotes powered by the QuoteSlate API</p>
         </main>
   );
 }
