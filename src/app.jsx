@@ -19,6 +19,7 @@ export default function App() {
     const [subDate, setSubDate] = React.useState(parseFloat(localStorage.getItem('subDate')) || '');
     const currentAuthState = user ? AuthState.Authenticated : AuthState.Unauthenticated;
     const [authState, setAuthState] = React.useState(currentAuthState);
+    const [teacherAuth, setTeacherAuth] = React.useState(() => localStorage.getItem('teacherAuth') || 'false');
 
     return (
       <BrowserRouter>
@@ -28,7 +29,7 @@ export default function App() {
 
       <Routes>
         <Route path='/' element={<Login teacher={teacher} setTeacher={setTeacher} user={user} setUser={setUser} count={count} score={score}
-           authState={authState}
+           authState={authState} teacherAuth={teacherAuth} setTeacherAuth={setTeacherAuth}
            onAuthChange={(user, authState) => {
            setAuthState(authState);
            setUser(user);

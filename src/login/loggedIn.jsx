@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
 
 export function Authenticated(props) {
   const navigate = useNavigate();
+  const [teacherAuth, setTeacherAuth] = React.useState(() => {return localStorage.getItem('teacherAuth')==='true'});
+  const authorized = React.useState(teacherAuth);
+  useEffect(() => {
+    function handleStorageChange() {
+      setTeacherAuth(localStorage.getItem('teacherAuth') === 'true');
+    }
 
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
   function logout() {
     fetch(`/api/auth/logout`, {
       method: 'delete',
@@ -21,6 +30,7 @@ export function Authenticated(props) {
   async function isTeacher() {
     loginOrCreate(`/api/auth/findTeacher`);
   }
+
   return (
     <div>
       <div className='playerName'>{props.user}</div>
@@ -30,7 +40,8 @@ export function Authenticated(props) {
       <Button className='login-buttons' variant='secondary' onClick={() => logout()}>
         Logout
       </Button>
-      <Button className='login-buttons' variant='secondary' onClick={() => navigate('/teacher')} disabled={!(props.teacherAuth==='true') || !props.teacherAuth}>
+      <p></p>
+      <Button className='login-buttons' variant='secondary' onClick={() => navigate('/teacher')} disabled={!teacherAuth}>
         Teacher View
       </Button>
     </div>

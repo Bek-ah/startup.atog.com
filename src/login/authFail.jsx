@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Button from 'react-bootstrap/Button';
 import { Popup } from './loginFailPopup';
@@ -9,7 +9,11 @@ export function Unauthenticated(props) {
   const [password, setPassword] = React.useState('');
   const [displayError, setDisplayError] = React.useState(null);
   const [passwordT, setPasswordT] = React.useState('');
-
+  const [teacherAuth, setTeacherAuth] = React.useState(props.teacherAuth);
+    useEffect(() => {
+      localStorage.setItem('teacherAuth', 'false')
+      setTeacherAuth('false')
+    }, [])
   async function loginUser() {
     console.log("Login clicked");
     loginOrCreate(`/api/auth/login`);
@@ -51,6 +55,8 @@ export function Unauthenticated(props) {
       },
     });
     if (response?.status === 200) {
+      setTeacherAuth(true);
+      localStorage.setItem('teacherAuth', 'true');
       localStorage.setItem('teacher', teacher);
       props.onLogin(teacher);
     } else {

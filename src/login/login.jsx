@@ -5,7 +5,7 @@ import { Unauthenticated } from './authFail';
 import { Authenticated } from './loggedIn';
 import { AuthState } from './authState';
 
-export function Login({user, setUser, teacher, setTeacher, score, setScore, authState, onAuthChange}) {
+export function Login({user, setUser, teacher, setTeacher, teacherAuth, setTeacherAuth, score, setScore, authState, onAuthChange}) {
     const [text, setText] = React.useState('');
     const [text2, setText2] = React.useState('');
     const navigate = useNavigate();
@@ -27,7 +27,7 @@ export function Login({user, setUser, teacher, setTeacher, score, setScore, auth
             <div>
                 {authState !== AuthState.Unknown && <h1>Welcome!</h1>}
                 {authState === AuthState.Authenticated && (
-                  <Authenticated user={user} onLogout={() => onAuthChange(user, AuthState.Unauthenticated)} />
+                  <Authenticated teacherAuth={teacherAuth} user={user} onLogout={() => onAuthChange(user, AuthState.Unauthenticated)} />
                 )}
                 {authState === AuthState.Unauthenticated && (
                   <Unauthenticated
