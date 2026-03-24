@@ -7,12 +7,6 @@ const app = express();
 app.use(express.static('public'));
 const authCookieName = 'token';
 const DB = require('./database.js');
-const authCookieName = 'token';
-
-// The scores and users are saved in memory and disappear whenever the service is restarted.
-let users = [];
-let scores = [];
-let teachers = [];
 
 // The service port. In production the front-end code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
@@ -62,6 +56,7 @@ apiRouter.post('/auth/loginTeacher', async (req, res) => {
   if (teacher) {
     if (await bcrypt.compare(req.body.passwordT, teacher.passwordT)) {
       teacher.token = uuid.v4();
+      await DB.updateTeacher(teacher);
       setAuthCookie(res, teacher.token);
       res.send({ teacher: teacher.teacher });
       return;
@@ -77,6 +72,7 @@ apiRouter.post('/auth/login', async (req, res) => {
   if (user) {
     if (await bcrypt.compare(req.body.password, user.password)) {
       user.token = uuid.v4();
+      await DB.updateUser(user);
       setAuthCookie(res, user.token);
       res.send({ user: user.user });
       return;
@@ -90,6 +86,7 @@ apiRouter.delete('/auth/logout', async (req, res) => {
   const user = await findUser('token', req.cookies[authCookieName]);
   if (user) {
     delete user.token;
+    DB.updateUser(user);
   }
   res.clearCookie(authCookieName);
   res.status(204).end();
@@ -99,6 +96,7 @@ apiRouter.delete('/auth/logoutTeacher', async (req, res) => {
   const teacher = await findTeacher('token', req.cookies[authCookieName]);
   if (teacher) {
     delete teacher.token;
+    DB.updateTeacher(teacher);
   }
   res.clearCookie(authCookieName);
   res.status(204).end();
@@ -123,13 +121,14 @@ const verifyAuthTeacher = async (req, res, next) => {
   }
 };
 // GetScores
-apiRouter.get('/teacher', verifyAuthTeacher, (_req, res) => {
+apiRouter.get('/teacher', verifyAuthTeacher, async (_req, res) => {
+  const scores = await DB.getHighScores();
   res.send(scores);
 });
 
 // SubmitScore
-apiRouter.post('/score', verifyAuth, (req, res) => {
-  scores = updateScores(req.body);
+apiRouter.post('/score', verifyAuth, async (req, res) => {
+  const scores = updateScores(req.body);
   res.send(scores);
 });
 
@@ -144,25 +143,9 @@ app.use((_req, res) => {
 });
 
 // updateScores considers a new score for inclusion in the high scores.
-function updateScores(newScore) {
-  let found = false;
-  for (const [i, prevScore] of scores.entries()) {
-    if (newScore.score > prevScore.score) {
-      scores.splice(i, 0, newScore);
-      found = true;
-      break;
-    }
-  }
-
-  if (!found) {
-    scores.push(newScore);
-  }
-
-  if (scores.length > 10) {
-    scores.length = 10;
-  }
-
-  return scores;
+async function updateScores(newScore) {
+  await DB.addScore(newScore);
+  return DB.getScores();
 }
 
 async function createUser(user, password) {
@@ -173,43 +156,38 @@ async function createUser(user, password) {
     password: passwordHash,
     token: uuid.v4(),
   };
-  users.push(userData);
+  await DB.addUser(userData);
 
   return user;
 }
 
 async function createTeacher(teacher, passwordT) {
-  console.log("password to hash: ", passwordT);
   const passwordHash = await bcrypt.hash(passwordT, 10);
-  console.log("creating teacher");
+
   const teacherData = {
     teacher: teacher,
     passwordT: passwordHash,
     token: uuid.v4(),
   };
-  teachers.push(teacherData);
-  console.log("teachers: ", teachers);
+  await DB.addTeacher(teacherData);
+
   return teacher;
 }
 
 async function findUser(field, value) {
   if (!value) return null;
-  for (const u in users) {
-    if (users[u][field] === value){
-      return users[u];
-    }
+  if (field === 'token'){
+      return DB.getUserByToken(value);
   }
-  return null;
+  return DB.getUser(value);
 }
 
 async function findTeacher(field, value) {
   if (!value) return null;
-  for (const t in teachers) {
-    if (teachers[t][field] === value){
-      return teachers[t];
-    }
+  if (field === 'token'){
+      return DB.getTeacherByToken(value);
   }
-  return null;
+  return DB.getTeacher(value);
 }
 
 // setAuthCookie in the HTTP response

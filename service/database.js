@@ -3,8 +3,9 @@ const config = require('./dbConfig.json');
 
 const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
 const client = new MongoClient(url);
-const db = client.db('startupScores');
+const db = client.db('startup');
 const userCollection = db.collection('user');
+const teacherCollection = db.collection('teacher');
 const scoreCollection = db.collection('score');
 
 // This will asynchronously test the connection and exit the process if it fails
@@ -33,6 +34,21 @@ async function addUser(user) {
 async function updateUser(user) {
   await userCollection.updateOne({ email: user.email }, { $set: user });
 }
+function getTeacher(email) {
+  return teacherCollection.findOne({ email: email });
+}
+
+function getTeacherByToken(token) {
+  return teacherCollection.findOne({ token: token });
+}
+
+async function addTeacher(teacher) {
+  await teacherCollection.insertOne(teacher);
+}
+
+async function updateTeacher(teacher) {
+  await teacherCollection.updateOne({ email: user.email }, { $set: user });
+}
 
 async function addScore(score) {
   return scoreCollection.insertOne(score);
@@ -52,6 +68,10 @@ module.exports = {
   getUserByToken,
   addUser,
   updateUser,
+  getTeacher,
+  getTeacherByToken,
+  addTeacher,
+  updateTeacher,
   addScore,
   getScores,
 };
