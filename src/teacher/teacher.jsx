@@ -25,7 +25,10 @@ export function Teacher() {
   } else {
       scoreRows.push(
           <tr key='0'>
-              <td>No submissions</td>
+              <td>  </td>
+              <td>--</td>
+              <td>--</td>
+              <td>--</td>
           </tr>
       )
   }
