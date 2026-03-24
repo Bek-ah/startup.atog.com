@@ -15,14 +15,10 @@ export function Unauthenticated(props) {
       setTeacherAuth('false')
     }, [])
   async function loginUser() {
-    console.log("Login clicked");
     loginOrCreate(`/api/auth/login`);
-    console.log("code passed login api");
   }
   async function loginTeacher() {
-    console.log("Login clicked");
     loginOrCreateTeacher(`/api/auth/loginTeacher`);
-    console.log("code passed loginTeacher api");
   }
   async function createUser() {
     loginOrCreate(`/api/auth/create`);
