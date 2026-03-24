@@ -41,9 +41,7 @@ apiRouter.post('/auth/createTeacher', async (req, res) => {
   if (await findTeacher('teacher', req.body.teacher)) {
     res.status(409).send({ msg: 'Existing teacher' });
   } else {
-    console.log("entered api router password: ");
     const teacher = await createTeacher(req.body.teacher, req.body.passwordT);
-    console.log("created Teacher, starting Cookie");
     setAuthCookie(res, teacher.token);
     res.send({ teacher: teacher.teacher });
   }
@@ -52,9 +50,7 @@ apiRouter.post('/auth/createTeacher', async (req, res) => {
 // GetAuth login an existing teacher
 apiRouter.post('/auth/loginTeacher', async (req, res) => {
   const teacher = await findTeacher('teacher', req.body.teacher);
-  console.log('Login attempt:', req.body);
   if (teacher) {
-    console.log('teacher in Mongo:', teacher);
     if (await bcrypt.compare(req.body.passwordT, teacher.passwordT)) {
       teacher.token = uuid.v4();
       await DB.updateTeacher(teacher);
@@ -69,7 +65,6 @@ apiRouter.post('/auth/loginTeacher', async (req, res) => {
 // GetAuth login an existing user
 apiRouter.post('/auth/login', async (req, res) => {
   const user = await findUser('user', req.body.user);
-  console.log('Login attempt:', req.body);
   if (user) {
     if (await bcrypt.compare(req.body.password, user.password)) {
       user.token = uuid.v4();
@@ -131,7 +126,6 @@ apiRouter.get('/teacher', verifyAuthTeacher, async (_req, res) => {
 apiRouter.post('/score', verifyAuth, async (req, res) => {
   const scores = updateScores(req.body);
   res.send(scores);
-  console.log("put in score: ", DB.getScores);
 });
 
 // Default error handler
@@ -179,7 +173,6 @@ async function createTeacher(teacher, passwordT) {
 async function findUser(field, value) {
   if (!value) return null;
   if (field === 'token'){
-      console.log('findUser: ', DB.getUserByToken(value));
       return DB.getUserByToken(value);
   }
   return DB.getUser(value);
