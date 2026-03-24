@@ -19,8 +19,8 @@ const scoreCollection = db.collection('score');
   }
 })();
 
-function getUser(email) {
-  return userCollection.findOne({ email: email });
+function getUser(user) {
+  return userCollection.findOne({ user: user });
 }
 
 function getUserByToken(token) {
@@ -32,10 +32,10 @@ async function addUser(user) {
 }
 
 async function updateUser(user) {
-  await userCollection.updateOne({ email: user.email }, { $set: user });
+  await userCollection.updateOne({ user: user.user }, { $set: user });
 }
-function getTeacher(email) {
-  return teacherCollection.findOne({ email: email });
+function getTeacher(teacher) {
+  return teacherCollection.findOne({ teacher: teacher });
 }
 
 function getTeacherByToken(token) {
@@ -47,7 +47,7 @@ async function addTeacher(teacher) {
 }
 
 async function updateTeacher(teacher) {
-  await teacherCollection.updateOne({ email: user.email }, { $set: user });
+  await teacherCollection.updateOne({ teacher: teacher.teacher }, { $set: teacher });
 }
 
 async function addScore(score) {

@@ -54,6 +54,7 @@ apiRouter.post('/auth/loginTeacher', async (req, res) => {
   const teacher = await findTeacher('teacher', req.body.teacher);
   console.log('Login attempt:', req.body);
   if (teacher) {
+    console.log('teacher in Mongo:', teacher);
     if (await bcrypt.compare(req.body.passwordT, teacher.passwordT)) {
       teacher.token = uuid.v4();
       await DB.updateTeacher(teacher);
@@ -122,7 +123,7 @@ const verifyAuthTeacher = async (req, res, next) => {
 };
 // GetScores
 apiRouter.get('/teacher', verifyAuthTeacher, async (_req, res) => {
-  const scores = await DB.getHighScores();
+  const scores = await DB.getScores();
   res.send(scores);
 });
 
@@ -130,6 +131,7 @@ apiRouter.get('/teacher', verifyAuthTeacher, async (_req, res) => {
 apiRouter.post('/score', verifyAuth, async (req, res) => {
   const scores = updateScores(req.body);
   res.send(scores);
+  console.log("put in score: ", DB.getScores);
 });
 
 // Default error handler
@@ -177,6 +179,7 @@ async function createTeacher(teacher, passwordT) {
 async function findUser(field, value) {
   if (!value) return null;
   if (field === 'token'){
+      console.log('findUser: ', DB.getUserByToken(value));
       return DB.getUserByToken(value);
   }
   return DB.getUser(value);

@@ -22,13 +22,14 @@ export function Scores({subDate, setSubDate, user, count, score, submission, set
         localStorage.setItem('score', 0);
         navigate('../');
     }
-    function submitButton(){
-        setSubmission(score);
-        localStorage.setItem('submission', score);
-        setSU(user);
-        localStorage.setItem('submissionuser', user);
-        setSubDate(Date());
-        localStorage.setItem('subDate', Date());
+    async function submitButton(){
+        const date = new Date().toLocaleDateString();
+        const newSubmission = { name: user, score: score, date: date };
+        await fetch('/api/score', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(newSubmission),
+            });
         logoutUser();
     }
     function againButton(){

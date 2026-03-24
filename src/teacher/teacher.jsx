@@ -1,11 +1,34 @@
 import React, {useState, useEffect} from 'react';
 import { Link } from "react-router-dom";
 
-export function Teacher({subDate, submission, submissionuser}) {
-    const submissionList = useState(() => localStorage.getItem('submissionList') || 0);
-    const userList = useState(() => localStorage.getItem('userList') || '');
-    const dateList = useState(() => localStorage.getItem('dateList') || '')
-
+export function Teacher() {
+    const [submissions, setSubmissions] = React.useState([]);
+  React.useEffect(() => {
+    fetch('/api/teacher')
+      .then((response) => response.json())
+      .then((submissions) => {
+        setSubmissions(submissions);
+      });
+  }, []);
+  const scoreRows = [];
+  if (submissions.length){
+      for (const [i, submission] of submissions.entries()) {
+          scoreRows.push(
+              <tr key={i}>
+                  <td>{i}</td>
+                  <td>{submission.name}</td>
+                  <td>{submission.score}</td>
+                  <td>{submission.date}</td>
+              </tr>
+          )
+      }
+  } else {
+      scoreRows.push(
+          <tr key='0'>
+              <td>No submissions</td>
+          </tr>
+      )
+  }
   return (
     <main className="teacher-background">
     <h2>Scores</h2>
@@ -18,14 +41,7 @@ export function Teacher({subDate, submission, submissionuser}) {
             <th>Date</th>
         </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>{submissionuser}</td>
-                <td>{submission}%</td>
-                <td>{subDate}</td>
-            </tr>
-        </tbody>
+        <tbody>{ scoreRows }</tbody>
     </table>
     <div></div>
         <button className="login-buttons"><Link className="links" to="../">Home</Link></button>
