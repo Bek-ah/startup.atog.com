@@ -12,7 +12,7 @@ class EventMessage {
   }
 }
 
-class SubmissionNotifier {
+class SubmissionEventNotifier {
   events = [];
   handlers = [];
 
@@ -58,5 +58,5 @@ class SubmissionNotifier {
   }
 }
 
-const SubmissionNotifier = new SubmissionNotifier();
+const SubmissionNotifier = new SubmissionEventNotifier();
 export { SubmissionEvent, SubmissionNotifier };
