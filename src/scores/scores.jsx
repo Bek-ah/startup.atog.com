@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from "react-router-dom";
+import { SubmissionEvent, SubmissionNotifier } from './submissionNotifier';
 
 export function Scores({subDate, setSubDate, user, count, score, submission, setSubmission, setSU, submissionuser}) {
     const navigate = useNavigate();
@@ -25,6 +26,7 @@ export function Scores({subDate, setSubDate, user, count, score, submission, set
     async function submitButton(){
         const date = new Date().toLocaleDateString();
         const newSubmission = { name: user, score: score, date: date };
+        SubmissionNotifier.broadcastEvent(user);
         await fetch('/api/score', {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
