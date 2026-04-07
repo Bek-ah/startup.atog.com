@@ -129,5 +129,5 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 - [x] **Backend listens for WebSocket connection** - Backend webSocket management executed in `service/webSocket.js`.
 - [x] **Frontend makes WebSocket connection** - Backend webSocket management executed in `src/submissionNotifier.js`.
 - [x] **Data sent over WebSocket connection** - JSON submission notification.
-- [x] **WebSocket data displayed** - Submission notifications displayed on Teacher view.
-- [ ] **Application is fully functional** - Completely ready for me for Demo day.
+- [x] **WebSocket data displayed** - Notifications for new submissions displayed on Teacher view above the submissions table.
+- [x] **Application is fully functional** - Completely ready for me for Demo day.
