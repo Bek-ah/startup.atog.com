@@ -3,8 +3,10 @@ const SubmissionEvent = {
 };
 
 class EventMessage {
-  constructor(from) {
+  constructor(from, type, value) {
     this.from = from;
+    this.type = type;
+    this.value = value;
   }
 }
 
@@ -25,9 +27,8 @@ class SubmissionEventNotifier {
     };
   }
 
-  broadcastEvent(from) {
-    const event = new EventMessage(from);
-    System.out.println("broadcast event 30 submissionNotifier");
+  broadcastEvent(from, type, value) {
+    const event = new EventMessage(from, type, value);
     this.socket.send(JSON.stringify(event));
   }
 

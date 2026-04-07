@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { Link } from "react-router-dom";
+import { Submissions } from "./submissions";
 
-export function Teacher() {
+export function Teacher(props) {
     const [submissions, setSubmissions] = React.useState([]);
   React.useEffect(() => {
     fetch('/api/teacher')
@@ -36,6 +37,7 @@ export function Teacher() {
   return (
     <main className="teacher-background">
     <h2>Scores</h2>
+    <Submissions userName={props.user}/>
     <table className='score-table'>
         <thead>
         <tr>

@@ -25,7 +25,8 @@ export function Submissions(props) {
     for (const [i, event] of events.entries()) {
       let message = 'unknown';
       if (event.type === SubmissionEvent.Submit) {
-        message = `${event.value.from} has submitted`;
+        message = `${event.value.from} has submitted\n`;
+        message = `${event.from} has submitted`;
       }
 
       messageArray.push(
@@ -40,8 +41,8 @@ export function Submissions(props) {
 
   return (
     <div className='players'>
-      Player
-      <span className='player-name'>{userName}</span>
+      New Submissions:
+      <span className='player-name'></span>
       <div id='player-messages'>{createMessageArray()}</div>
     </div>
   );

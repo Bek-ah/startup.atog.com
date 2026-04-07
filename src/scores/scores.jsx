@@ -26,7 +26,7 @@ export function Scores({subDate, setSubDate, user, count, score, submission, set
     async function submitButton(){
         const date = new Date().toLocaleDateString();
         const newSubmission = { name: user, score: score, date: date };
-        SubmissionNotifier.broadcastEvent(user);
+        SubmissionNotifier.broadcastEvent(user,SubmissionEvent.Submit,user);
         await fetch('/api/score', {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
