@@ -32,6 +32,7 @@ export function Teacher() {
           </tr>
       )
   }
+
   return (
     <main className="teacher-background">
     <h2>Scores</h2>

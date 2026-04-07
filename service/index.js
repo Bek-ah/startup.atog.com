@@ -4,9 +4,9 @@ const bcrypt = require('bcryptjs');
 const express = require('express');
 const uuid = require('uuid');
 const app = express();
-app.use(express.static('public'));
 const authCookieName = 'token';
 const DB = require('./database.js');
+const { peerProxy } = require('./peerProxy.js');
 
 // The service port. In production the front-end code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
@@ -134,9 +134,9 @@ app.use(function (err, req, res, next) {
 });
 
 // Return the application's default page if the path is unknown
-app.use((_req, res) => {
-  res.sendFile('index.html', { root: 'public' });
-});
+//app.use((_req, res) => {
+  //res.sendFile('index.html', { root: 'public' });
+//});
 
 // updateScores considers a new score for inclusion in the high scores.
 async function updateScores(newScore) {
@@ -196,17 +196,20 @@ function setAuthCookie(res, authToken) {
   });
 }
 
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
 //nodeWebService
-const http = require('http');
+/*const http = require('http');
 const server = http.createServer(function (req, res) {
   res.writeHead(200, { 'Content-Type': 'text/html' });
   res.write(`<h1>Hello Node.js! [${req.method}] ${req.url}</h1>`);
   res.end();
+});*/
+
+const httpService = app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
 });
 
-server.listen(5000, () => {
-  console.log(`Web service listening on port 5000`);
-});
+peerProxy(httpService);
+
+//server.listen(5000, () => {
+//  console.log(`Web service listening on port 5000`);
+//});
