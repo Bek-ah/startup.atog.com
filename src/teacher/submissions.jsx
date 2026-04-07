@@ -25,13 +25,12 @@ export function Submissions(props) {
     for (const [i, event] of events.entries()) {
       let message = 'unknown';
       if (event.type === SubmissionEvent.Submit) {
-        message = `${event.value.from} has submitted\n`;
         message = `${event.from} has submitted`;
       }
 
       messageArray.push(
         <div key={i} className='event'>
-          <span className={'player-event'}>{event.from}</span>
+          <span className={'player-event'}></span>
           {message}
         </div>
       );
